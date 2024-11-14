@@ -1,0 +1,157 @@
+Author: Sébastien Feugère <seb@feugere.net>
+Title: Stay calm during Christmas preparations with Diary.pm
+Topic: Object::Pad
+
+=encoding utf8
+
+=head2 Preparing the Christmas deliveries at the North Pole warehouse
+
+Christmas is coming and the elves are getting excited and stressed preparing all
+the packages in Santa's warehouse. In 2024, the toy shop and it's warehouse are
+facilities with modern comfort and automation, but this is a very critical
+moment as no error is allowed.
+
+Santa's elves team do daily standups. This is what L<Elf
+Foreman|https://christmas-specials.fandom.com/wiki/Boss_Elf> decided after it
+looked like doing so would improve the Toy workshop team members mental health.
+Each elf have to speak up and announce:
+
+=for :list
+* what they did in the last day
+* what they plan to do today
+* announce any blocker so that other elves can support them
+
+
+=head2 Someone is getting extra-stressed
+
+Now L<Hermey the Elf|https://christmas-specials.fandom.com/wiki/Hermey> got more
+problems. Getting stressed about the long December month was already quite
+something, but speaking in front of other elves about what he accomplished,
+feelings, and asking for help is definitelly too much for Hermey. The poor thing
+couldn't bear it and each day, would babble his meaningless report
+
+=head3 Perl to the rescue
+
+Sparkle noticed that, and decided to point a tool she developped and used since
+a couple of years now. I<"Take a look at this app called L<Diary>. It might help
+you organising your thoughs">.
+
+L<Diary> is a very simple app that use the Perl programming language,
+L<Object::Pad> for providing object classes, and a few magical other modules,
+like L<Time::Piece>, L<Mojo::Template>, L<Config::Tiny> and L<Path::Tiny>.
+
+This is how i use it:
+
+=begin perl
+
+    use 5.28.0;
+
+    use Object::Pad;
+
+    use Getopt::Long qw(GetOptions);
+
+    use lib 'lib';
+    use Diary;
+
+    my $data_dir = 'data';
+    my $project_name = 'Diary';
+
+    GetOptions ("data-dir:s" => \$data_dir,
+                "project-name:s"   => \$project_name)
+      or die("Error in command line arguments\n");
+
+    my $diary = Diary->new( data_dir => $data_dir, project_name => $project_name );
+
+    $diary->write;
+
+    #say $diary->render;
+
+=end perl
+
+And I got a nice little Bash alias:
+
+=begin bash
+
+    alias diary="cd ~/project/diary/ && carton exec perl ./script/diary.pl --data-dir ~/toy-factory/diary --project-name Warehouse && cd -";
+
+=end bash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=head2 Making links
+
+Your article here goes here. The title will automatically be added by the site
+builder. Make links with L<anchor text|http://example.com>. For module links,
+merely specify the module, like L<Pod::Simple>.
+
+=head2 Inline code
+
+Make literal code text like this: C<$x>. If the code has angle brackets,
+double up the angle brackets with extra space before and after, like this
+C<< $obj->method >>..
+
+=head2 Block code
+
+There are regular Pod code verbatim text, which are indented lines:
+
+	my $x = 1_00_000 ** $::xyzzy;
+
+A C<perl> section can do syntax highlighting
+
+=begin perl
+
+    # inside "perl" blocks, make syntax-highlighted code
+    # with Pod::Elemental::Transformer::SynHi
+	my $x = 1_00_000 ** $::xyzzy;
+
+=end perl
+
+A C<code> section can syntax-highlight non-Perl too:
+
+=begin code
+
+  # inside "code" blocks, make syntax-highlighted code
+  # with Pod::Elemental::Transformer::Codebox
+
+=end code
+
+=head2 Raw HTML
+
+Include some raw HTML. A blank line breaks the spell:
+
+=for :html
+<p>Some para</p>
+
+This is back to Pod. For big blocks of HTML, including blank lines,
+use C<=begin html>.
+
+=begin html
+
+<p>Some para</p>
+
+<p>Another para</p>
+
+=end html
+
+=head2 Lists
+
+=for :list
+* short list syntax from Pod::Elemental::Transformer::List
+* duck
+* duck
+* goose
+
+=cut
